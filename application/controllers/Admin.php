@@ -266,8 +266,8 @@ class Admin extends CI_Controller
             $row[] = $d->stok_gd;
             $row[] = $d->stok_pj;
             $row[] = '<img src="' . base_url('assets/upload/genset/' . $d->gambar_genset) . '" width="100" height="100">';
-            $row[] = '<a href="" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
-            <a href="" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
+            $row[] = '<a href="' . base_url('admin/update_genset/' . $d->id_genset) . '" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+            <a href="' . base_url('admin/hapus_data/' . $d->id_genset) . '" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
             $data[] = $row;
         }
         $output = array(
