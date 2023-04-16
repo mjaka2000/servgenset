@@ -1,0 +1,22 @@
+<tbody>
+                                    <?php
+                                    $no = 1;
+                                    if (is_array($list_data)) { ?>
+                                        <?php foreach ($list_data as $d) : ?>
+                                            <tr>
+                                                <td><?= $no++; ?></td>
+                                                <td><?= $d->kode_genset; ?></td>
+                                                <td><?= $d->nama_genset; ?></td>
+                                                <td><?= $d->daya; ?></td>
+                                                <td>Rp&nbsp;<?= number_format($d->harga); ?></td>
+                                                <td><?= $d->stok_gd; ?></td>
+                                                <td><?= $d->stok_pj; ?></td>
+                                                <td><img src="<?= base_url('assets/upload/genset/' . $d->gambar_genset); ?>" class="img img-box" width="100" height="100" alt="<?= $d->kode_genset; ?>"></td>
+                                                <td><a href="<?= base_url('admin/update_genset/' . $d->id_genset); ?>" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+                                                    <a href="<?= base_url('admin/hapus_data/' . $d->id_genset); ?>" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>
+                                                    <!-- <a href="<?= base_url('admin/update_data_service_genset/' . $d->kode_genset); ?>" type="button" class="btn btn-sm btn-warning" name="btn_detail"><i class="fa fa-info-circle mr-2"></i></a> -->
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php } ?>
+                                </tbody>
