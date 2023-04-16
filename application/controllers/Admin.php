@@ -239,10 +239,45 @@ class Admin extends CI_Controller
 
     public function tabel_genset()
     {
-        $data['list_data'] = $this->M_admin->select('tb_genset');
+        // $data['list_data'] = $this->M_admin->select('tb_genset');
         $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
         $data['title'] = 'Data Genset';
         $this->load->view('admin/form_genset/tabel_genset', $data);
+    }
+
+    public function ajax_list()
+    {
+        header('Content-Type: application/json');
+        $list_data = $this->M_admin->get_datatables();
+        $data = array();
+        $no = $this->input->post('start');
+        //looping data mahasiswa
+        foreach ($list_data as $d) {
+            $no++;
+            $row = array();
+            //row pertama akan kita gunakan untuk btn edit dan delete
+            // $row[] =  '<a class="btn btn-success btn-sm"><i class="fa fa-edit"></i> </a>
+            // <a class="btn btn-danger btn-sm "><i class="fa fa-trash"></i> </a>';
+            $row[] = $no;
+            $row[] = $d->kode_genset;
+            $row[] = $d->nama_genset;
+            $row[] = $d->daya;
+            $row[] = number_format($d->harga);
+            $row[] = $d->stok_gd;
+            $row[] = $d->stok_pj;
+            $row[] = '<img src="' . base_url('assets/upload/genset/' . $d->gambar_genset) . '" width="100" height="100">';
+            $row[] = '<a href="" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+            <a href="" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->M_admin->count_all(),
+            "recordsFiltered" => $this->M_admin->count_filtered(),
+            "data" => $data,
+        );
+        //output to json format
+        $this->output->set_output(json_encode($output));
     }
 
     public function tambah_genset()

@@ -42,44 +42,24 @@
                                 </div>
                             <?php } ?>
                             <a href="<?= base_url('admin/tambah_genset'); ?>" style="margin-bottom:10px;" type="button" class="btn btn-sm btn-primary" name="tambah_data"><i class="fa fa-plus"></i>&nbsp;Tambah Data</a>
+                            <div class="table-responsive">
+                                <table id="tablegst" class="table table-bordered table-hover" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="width :10px">No.</th>
+                                            <th>Nomor Genset</th>
+                                            <th>Nama Genset</th>
+                                            <th>Daya</th>
+                                            <th>Harga Perhari</th>
+                                            <th>Unit Digudang</th>
+                                            <th>Unit Disewakan</th>
+                                            <th>Gambar</th>
+                                            <th style="width:10%">Aksi</th>
+                                        </tr>
+                                    </thead>
 
-                            <table id="mytable" class="table table-bordered table-hover" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th style="width :10px">No.</th>
-                                        <th>Nomor Genset</th>
-                                        <th>Nama Genset</th>
-                                        <th>Daya</th>
-                                        <th>Harga Perhari</th>
-                                        <th>Unit Digudang</th>
-                                        <th>Unit Disewakan</th>
-                                        <th>Gambar</th>
-                                        <th style="width:10%">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    if (is_array($list_data)) { ?>
-                                        <?php foreach ($list_data as $d) : ?>
-                                            <tr>
-                                                <td><?= $no++; ?></td>
-                                                <td><?= $d->kode_genset; ?></td>
-                                                <td><?= $d->nama_genset; ?></td>
-                                                <td><?= $d->daya; ?></td>
-                                                <td>Rp&nbsp;<?= number_format($d->harga); ?></td>
-                                                <td><?= $d->stok_gd; ?></td>
-                                                <td><?= $d->stok_pj; ?></td>
-                                                <td><img src="<?= base_url('assets/upload/genset/' . $d->gambar_genset); ?>" class="img img-box" width="100" height="100" alt="<?= $d->kode_genset; ?>"></td>
-                                                <td><a href="<?= base_url('admin/update_genset/' . $d->id_genset); ?>" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
-                                                    <a href="<?= base_url('admin/hapus_data/' . $d->id_genset); ?>" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>
-                                                    <!-- <a href="<?= base_url('admin/update_data_service_genset/' . $d->kode_genset); ?>" type="button" class="btn btn-sm btn-warning" name="btn_detail"><i class="fa fa-info-circle mr-2"></i></a> -->
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,6 +85,24 @@
                 "body").style.visibility = "visible";
         }
     };
+</script>
+
+<script>
+    //setting datatables
+    $('#tablegst').DataTable({
+        // "language": {
+        //     "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
+        // },
+        "responsive": true,
+        "processing": true,
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            //panggil method ajax list dengan ajax
+            "url": '<?= base_url('admin/ajax_list'); ?>',
+            "type": "POST"
+        }
+    });
 </script>
 <script type="text/javascript">
     $('.btn-delete').on('click', function() {

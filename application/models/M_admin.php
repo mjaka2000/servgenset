@@ -4,6 +4,74 @@ class M_admin extends CI_Model
 {
 
     ####################################
+    //* Data Genset
+    ####################################
+    //set nama tabel yang akan kita tampilkan datanya
+    var $tablegst = 'tb_genset';
+    //set kolom order, kolom pertama saya null untuk kolom edit dan hapus
+    var $column_order = array('kode_genset', 'nama_genset', 'daya', 'harga', 'stok_gd', 'stok_pj', 'gambar_genset', null);
+
+    var $column_search = array('kode_genset', 'nama_genset', 'daya');
+    // default order 
+    var $order = array('id_genset ' => 'asc');
+
+    private function _get_datatables_query()
+    {
+        $this->db->from($this->tablegst);
+        $i = 0;
+        foreach ($this->column_search as $item) // loop kolom 
+        {
+            if ($this->input->post('search')['value']) // jika datatable mengirim POST untuk search
+            {
+                if ($i === 0) // looping pertama
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $this->input->post('search')['value']);
+                } else {
+                    $this->db->or_like($item, $this->input->post('search')['value']);
+                }
+                if (count($this->column_search) - 1 == $i) //looping terakhir
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+
+        // jika datatable mengirim POST untuk order
+        if ($this->input->post('order')) {
+            $this->db->order_by($this->column_order[$this->input->post('order')['0']['column']], $this->input->post('order')['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function get_datatables()
+    {
+        $this->_get_datatables_query();
+        if ($this->input->post('length') != -1)
+            $this->db->limit($this->input->post('length'), $this->input->post('start'));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered()
+    {
+        $this->_get_datatables_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all()
+    {
+        $this->db->from($this->tablegst);
+        return $this->db->count_all_results();
+    }
+
+    ####################################
+    //* Data Genset
+    ####################################
+
+    ####################################
     // CRUD
     ####################################
 
