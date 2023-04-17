@@ -70,6 +70,7 @@ class M_admin extends CI_Model
     ####################################
     //* Data Genset
     ####################################
+
     ####################################
     //* Data Pakai
     ####################################
@@ -135,9 +136,75 @@ class M_admin extends CI_Model
     }
 
     ####################################
-    //* Data Genset
+    //* Data Pakai
     ####################################
 
+    ####################################
+    //* Data Perbaikan
+    ####################################
+    //set nama tabel yang akan kita tampilkan datanya
+    var $tableserv = 'tb_serv_genset';
+    //set kolom order, kolom pertama saya null untuk kolom edit dan hapus
+    var $column_order_serv = array('kode_genset', 'nama_genset', 'jenis_perbaikan', 'nama_sparepart', 'tgl_perbaikan', 'nama', 'ket_perbaikan', 'biaya_perbaikan', null);
+
+    var $column_search_serv = array('kode_genset', 'nama_genset', 'jenis_perbaikan', 'nama_sparepart', 'nama');
+    // default order 
+    var $order_serv = array('id_perbaikan_gst' => 'asc');
+
+    private function _get_datatables_query_serv()
+    {
+        $this->db->from($this->tableserv)
+            ->join('tb_genset', 'tb_genset.id_genset = tb_serv_genset.id_genset')
+            ->join('tb_sparepart', 'tb_sparepart.id_sparepart = tb_serv_genset.id_sparepart')
+            ->join('tb_pemakai', 'tb_pemakai.id_pemakai = tb_serv_genset.id_pemakai');
+        $i = 0;
+        foreach ($this->column_search_serv as $item) // loop kolom 
+        {
+            if ($this->input->post('search')['value']) // jika datatable mengirim POST untuk search
+            {
+                if ($i === 0) // looping pertama
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $this->input->post('search')['value']);
+                } else {
+                    $this->db->or_like($item, $this->input->post('search')['value']);
+                }
+                if (count($this->column_search_serv) - 1 == $i) //looping terakhir
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+
+        // jika datatable mengirim POST untuk order
+        if ($this->input->post('order')) {
+            $this->db->order_by($this->column_order_serv[$this->input->post('order')['0']['column']], $this->input->post('order')['0']['dir']);
+        } else if (isset($this->order_serv)) {
+            $orderserv = $this->order_serv;
+            $this->db->order_by(key($orderserv), $orderserv[key($orderserv)]);
+        }
+    }
+
+    function get_datatables_serv()
+    {
+        $this->_get_datatables_query_serv();
+        if ($this->input->post('length') != -1)
+            $this->db->limit($this->input->post('length'), $this->input->post('start'));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_serv()
+    {
+        $this->_get_datatables_query_serv();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_serv()
+    {
+        $this->db->from($this->tablepakai);
+        return $this->db->count_all_results();
+    }
     ####################################
     // CRUD
     ####################################

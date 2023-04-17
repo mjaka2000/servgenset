@@ -44,6 +44,26 @@ class Admin extends CI_Controller
         return password_hash($password, PASSWORD_DEFAULT);
     }
 
+    public function backup_db()
+    {
+        $this->load->dbutil();
+        $db_name = $this->db->database . '.sql';
+        $prefs = array(
+            'format' => 'txt',
+            'filename' => $db_name,
+            // 'add_insert' => true,
+            // 'foreign_key_checks' => false
+        );
+
+        $backup = $this->dbutil->backup($prefs);
+        $save = '.assets/backup_db/' . $db_name;
+
+        $this->load->helper('file');
+        write_file($save, $backup);
+
+        $this->load->helper('download');
+        force_download($db_name, $backup);
+    }
     ####################################
     //* Users
     ####################################
@@ -431,10 +451,48 @@ class Admin extends CI_Controller
 
     public function tabel_service_genset()
     {
-        $data['list_data'] = $this->M_admin->get_data_service('tb_serv_genset');
+        // $data['list_data'] = $this->M_admin->get_data_service('tb_serv_genset');
         $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
         $data['title'] = 'Data Perbaikan Genset';
         $this->load->view('admin/form_service_genset/tabel_service_genset', $data);
+    }
+
+    public function ajax_list_serv()
+    {
+        header('Content-Type: application/json');
+        $list_data = $this->M_admin->get_datatables_serv();
+        $data = array();
+        $no = $this->input->post('start');
+        //looping data mahasiswa
+        foreach ($list_data as $d) {
+            $no++;
+            $row = array();
+            //row pertama akan kita gunakan untuk btn edit dan delete
+            $row[] = $no;
+            $row[] = $d->kode_genset;
+            $row[] = $d->nama_genset;
+            $row[] = $d->jenis_perbaikan;
+            $row[] = $d->nama_sparepart;
+            $row[] = $d->tgl_perbaikan;
+            $row[] = $d->nama;
+            $row[] = $d->ket_perbaikan;
+            $row[] = $d->biaya_perbaikan;
+            // $row[] = '<a href="' . base_url('admin/update_data_pemakai/' . $d->id_pemakai) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+            // <button type="button" id="id_pemakai" data-id="' . $d->id_pemakai . '" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></button>';
+
+            $row[] = '<a href="' . base_url('admin/update_data_service_genset/' . $d->id_perbaikan_gst) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+            <a href="' . base_url('admin/hapus_service_genset/' . $d->id_perbaikan_gst) . '" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
+            // $row[] = $aksi;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->M_admin->count_all_serv(),
+            "recordsFiltered" => $this->M_admin->count_filtered_serv(),
+            "data" => $data,
+        );
+        //output to json format
+        $this->output->set_output(json_encode($output));
     }
 
     public function tambah_service_genset()
