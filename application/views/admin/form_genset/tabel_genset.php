@@ -99,7 +99,7 @@
         "order": [],
         "ajax": {
             //panggil method ajax list dengan ajax
-            "url": '<?= base_url('admin/ajax_list'); ?>',
+            "url": '<?= base_url('admin/ajax_list_gst'); ?>',
             "type": "POST"
         }
     });
