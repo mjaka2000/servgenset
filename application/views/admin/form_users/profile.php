@@ -102,6 +102,9 @@
                                 <li class="nav-item">
                                     <a href="#picture" class="nav-link" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Change Picture</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="#backupdb" class="nav-link" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">Backup DB</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -124,6 +127,9 @@
                                             <!-- <a href="<?= base_url('admin/users'); ?>" type="button" class="btn btn-sm btn-secondary" onclick="" name="btn_kembali"><i class="fa fa-arrow-left mr-2"></i>Kembali</a> -->
                                         </div>
                                     </form>
+                                </div>
+                                <div class="tab-pane fade" id="backupdb" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                    <button onclick="window.location.href='<?= base_url('admin/backup_db'); ?>'" class="btn btn-sm btn-primary">Backup DB</button>
                                 </div>
 
                                 <div class="tab-pane fade show active" id="settings" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
