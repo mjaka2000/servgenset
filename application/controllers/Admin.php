@@ -245,10 +245,10 @@ class Admin extends CI_Controller
         $this->load->view('admin/form_genset/tabel_genset', $data);
     }
 
-    public function ajax_list()
+    public function ajax_list_gst()
     {
         header('Content-Type: application/json');
-        $list_data = $this->M_admin->get_datatables();
+        $list_data = $this->M_admin->get_datatables_gst();
         $data = array();
         $no = $this->input->post('start');
         //looping data mahasiswa
@@ -272,8 +272,8 @@ class Admin extends CI_Controller
         }
         $output = array(
             "draw" => $this->input->post('draw'),
-            "recordsTotal" => $this->M_admin->count_all(),
-            "recordsFiltered" => $this->M_admin->count_filtered(),
+            "recordsTotal" => $this->M_admin->count_all_gst(),
+            "recordsFiltered" => $this->M_admin->count_filtered_gst(),
             "data" => $data,
         );
         //output to json format
@@ -678,10 +678,43 @@ class Admin extends CI_Controller
 
     public function tabel_pemakai()
     {
-        $data['list_pemakai'] = $this->M_admin->select('tb_pemakai');
+        // $data['list_pemakai'] = $this->M_admin->select('tb_pemakai');
         $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
         $data['title'] = 'Data Pemakai';
         $this->load->view('admin/form_pemakai/tabel_pemakai', $data);
+    }
+
+    public function ajax_list_pakai()
+    {
+        header('Content-Type: application/json');
+        $list_data = $this->M_admin->get_datatables_pakai();
+        $data = array();
+        $no = $this->input->post('start');
+        //looping data mahasiswa
+        foreach ($list_data as $d) {
+            $no++;
+            $row = array();
+            //row pertama akan kita gunakan untuk btn edit dan delete
+            $row[] = $no;
+            $row[] = $d->nama;
+            $row[] = $d->alamat;
+            $row[] = $d->no_hp;
+            // $row[] = '<a href="' . base_url('admin/update_data_pemakai/' . $d->id_pemakai) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+            // <button type="button" id="id_pemakai" data-id="' . $d->id_pemakai . '" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></button>';
+
+            $row[] = '<a href="' . base_url('admin/update_data_pemakai/' . $d->id_pemakai) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+            <a href="' . base_url('admin/hapus_pemakai/' . $d->id_pemakai) . '" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
+            // $row[] = $aksi;
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $this->input->post('draw'),
+            "recordsTotal" => $this->M_admin->count_all_pakai(),
+            "recordsFiltered" => $this->M_admin->count_filtered_pakai(),
+            "data" => $data,
+        );
+        //output to json format
+        $this->output->set_output(json_encode($output));
     }
 
     public function tambah_data_pemakai()
@@ -755,12 +788,22 @@ class Admin extends CI_Controller
         }
     }
 
+    // public function hapus_pemakai()
+    // {
+    //     $id = $this->input->post('id_pemakai');
+    //     $where = array('id_pemakai' => $id);
+    //     $data = $this->M_admin->delete('tb_pemakai', $where);
+    //     $this->session->set_flashdata('msg_sukses', 'Data Berhasil Di Hapus');
+    //     echo json_encode($data);
+    //     redirect(base_url('admin/tabel_pemakai'));
+    // }
     public function hapus_pemakai()
     {
         $uri = $this->uri->segment(3);
         $where = array('id_pemakai' => $uri);
-        $this->M_admin->delete('tb_pemakai', $where);
+        $data = $this->M_admin->delete('tb_pemakai', $where);
         $this->session->set_flashdata('msg_sukses', 'Data Berhasil Di Hapus');
+        echo json_encode($data);
         redirect(base_url('admin/tabel_pemakai'));
     }
 

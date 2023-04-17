@@ -42,8 +42,8 @@
                                 </div>
                             <?php } ?>
                             <a href="<?= base_url('admin/tambah_data_pemakai'); ?>" style="margin-bottom:10px;" type="button" class="btn btn-sm btn-primary" name="tambah_data"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Tambah Data</a>
-
-                            <table id="mytable" class="table table-bordered table-hover" style="width:100%">
+                            <!-- <div class="table-responsive"> -->
+                            <table id="tablepakai" class="table table-bordered table-hover" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th style="width :10px">No.</th>
@@ -53,28 +53,9 @@
                                         <th style="width:10%">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    // $list_data = isset($_POST['list_data']) ? $_POST['list_data'] : '';
-                                    if (is_array($list_pemakai)) { ?>
-                                        <?php foreach ($list_pemakai as $dt) : ?>
-                                            <tr>
-                                                <td><?= $no++; ?></td>
-                                                <td><?= $dt->nama; ?></td>
-                                                <td><?= $dt->alamat; ?></td>
-                                                <td><?= $dt->no_hp; ?></td>
-                                                <td><a href="<?= base_url('admin/update_data_pemakai/' . $dt->id_pemakai); ?>" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
-                                                    <a href="<?= base_url('admin/hapus_pemakai/' . $dt->id_pemakai); ?>" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>
-                                                    <!-- <a href="<?= base_url('admin/'); ?>" type="button" class="btn btn-xs btn-warning" name="btn_detail"><i class="fa fa-info-circle mr-2"></i></a> -->
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    <?php } else { ?>
-                                        <td colspan="9" align="center"><strong>Data Kosong</strong></td>
-                                    <?php } ?>
-                                </tbody>
+
                             </table>
+                            <!-- </div> -->
                         </div>
                     </div>
                 </div>
@@ -101,7 +82,26 @@
         }
     };
 </script>
-<script type="text/javascript">
+
+<script>
+    //setting datatables
+    $('#tablepakai').DataTable({
+        // "language": {
+        //     "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
+        // },
+        "autoWidth": false,
+        "responsive": true,
+        "processing": true,
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            //panggil method ajax list dengan ajax
+            "url": '<?= base_url('admin/ajax_list_pakai'); ?>',
+            "type": "POST"
+        }
+    });
+</script>
+<!-- <script type="text/javascript">
     $('.btn-delete').on('click', function() {
         var getLink = $(this).attr('href');
         Swal.fire({
@@ -117,7 +117,26 @@
             }
         })
         return false;
-    }); //* Script untuk memuat sweetalert hapus data
+    }); //* Script untuk memuat sweetalert hapus data -->
+<script type="text/javascript">
+    $('#tablepakai').on('click', '.btn-delete', function() {
+        var getLink = $(this).attr('href');
+        // var id = $(this).data('id_pemakai');
+        Swal.fire({
+            title: 'Hapus Data',
+            text: 'Yakin ingin menghapus data?',
+            type: 'warning',
+            confirmButtonColor: '#d9534f',
+            showCancelButton: true,
+        }).then(result => {
+            if (result.isConfirmed) {
+                window.location.href = getLink
+            }
+        })
+        return false;
+    });
+
+    //* Script untuk memuat sweetalert hapus data
 </script>
 </body>
 

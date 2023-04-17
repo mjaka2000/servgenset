@@ -9,17 +9,17 @@ class M_admin extends CI_Model
     //set nama tabel yang akan kita tampilkan datanya
     var $tablegst = 'tb_genset';
     //set kolom order, kolom pertama saya null untuk kolom edit dan hapus
-    var $column_order = array('kode_genset', 'nama_genset', 'daya', 'harga', 'stok_gd', 'stok_pj', 'gambar_genset', null);
+    var $column_order_gst = array('kode_genset', 'nama_genset', 'daya', 'harga', 'stok_gd', 'stok_pj', 'gambar_genset', null);
 
-    var $column_search = array('kode_genset', 'nama_genset', 'daya');
+    var $column_search_gst = array('kode_genset', 'nama_genset', 'daya');
     // default order 
-    var $order = array('id_genset ' => 'asc');
+    var $order_gst = array('id_genset ' => 'asc');
 
-    private function _get_datatables_query()
+    private function _get_datatables_query_gst()
     {
         $this->db->from($this->tablegst);
         $i = 0;
-        foreach ($this->column_search as $item) // loop kolom 
+        foreach ($this->column_search_gst as $item) // loop kolom 
         {
             if ($this->input->post('search')['value']) // jika datatable mengirim POST untuk search
             {
@@ -30,7 +30,7 @@ class M_admin extends CI_Model
                 } else {
                     $this->db->or_like($item, $this->input->post('search')['value']);
                 }
-                if (count($this->column_search) - 1 == $i) //looping terakhir
+                if (count($this->column_search_gst) - 1 == $i) //looping terakhir
                     $this->db->group_end();
             }
             $i++;
@@ -38,32 +38,99 @@ class M_admin extends CI_Model
 
         // jika datatable mengirim POST untuk order
         if ($this->input->post('order')) {
-            $this->db->order_by($this->column_order[$this->input->post('order')['0']['column']], $this->input->post('order')['0']['dir']);
-        } else if (isset($this->order)) {
-            $order = $this->order;
-            $this->db->order_by(key($order), $order[key($order)]);
+            $this->db->order_by($this->column_order_gst[$this->input->post('order')['0']['column']], $this->input->post('order')['0']['dir']);
+        } else if (isset($this->order_gst)) {
+            $ordergst = $this->order_gst;
+            $this->db->order_by(key($ordergst), $ordergst[key($ordergst)]);
         }
     }
 
-    function get_datatables()
+    function get_datatables_gst()
     {
-        $this->_get_datatables_query();
+        $this->_get_datatables_query_gst();
         if ($this->input->post('length') != -1)
             $this->db->limit($this->input->post('length'), $this->input->post('start'));
         $query = $this->db->get();
         return $query->result();
     }
 
-    function count_filtered()
+    function count_filtered_gst()
     {
-        $this->_get_datatables_query();
+        $this->_get_datatables_query_gst();
         $query = $this->db->get();
         return $query->num_rows();
     }
 
-    public function count_all()
+    public function count_all_gst()
     {
         $this->db->from($this->tablegst);
+        return $this->db->count_all_results();
+    }
+
+    ####################################
+    //* Data Genset
+    ####################################
+    ####################################
+    //* Data Pakai
+    ####################################
+    //set nama tabel yang akan kita tampilkan datanya
+    var $tablepakai = 'tb_pemakai';
+    //set kolom order, kolom pertama saya null untuk kolom edit dan hapus
+    var $column_order_pakai = array('nama', 'alamat', 'no_hp', null);
+
+    var $column_search_pakai = array('nama', 'alamat', 'no_hp');
+    // default order 
+    var $order_pakai = array('id_pemakai' => 'asc');
+
+    private function _get_datatables_query_pakai()
+    {
+        $this->db->from($this->tablepakai);
+        $i = 0;
+        foreach ($this->column_search_pakai as $item) // loop kolom 
+        {
+            if ($this->input->post('search')['value']) // jika datatable mengirim POST untuk search
+            {
+                if ($i === 0) // looping pertama
+                {
+                    $this->db->group_start();
+                    $this->db->like($item, $this->input->post('search')['value']);
+                } else {
+                    $this->db->or_like($item, $this->input->post('search')['value']);
+                }
+                if (count($this->column_search_pakai) - 1 == $i) //looping terakhir
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+
+        // jika datatable mengirim POST untuk order
+        if ($this->input->post('order')) {
+            $this->db->order_by($this->column_order_pakai[$this->input->post('order')['0']['column']], $this->input->post('order')['0']['dir']);
+        } else if (isset($this->order_pakai)) {
+            $orderpakai = $this->order_pakai;
+            $this->db->order_by(key($orderpakai), $orderpakai[key($orderpakai)]);
+        }
+    }
+
+    function get_datatables_pakai()
+    {
+        $this->_get_datatables_query_pakai();
+        if ($this->input->post('length') != -1)
+            $this->db->limit($this->input->post('length'), $this->input->post('start'));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    function count_filtered_pakai()
+    {
+        $this->_get_datatables_query_pakai();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_pakai()
+    {
+        $this->db->from($this->tablepakai);
         return $this->db->count_all_results();
     }
 
