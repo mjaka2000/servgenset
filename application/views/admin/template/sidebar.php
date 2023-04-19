@@ -26,7 +26,8 @@
                 <li class="nav-header">MAIN NAVIGATION</li>
                 <li class="nav-item">
                     <a href="<?= base_url('admin') ?>" class="nav-link">
-                        <i class="nav-icon fa fa-home"></i> <span>Dashboard</span>
+                        <i class="nav-icon fa fa-home"></i>
+                        <p>Dashboard</p>
                     </a>
 
                 </li>
@@ -64,6 +65,13 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('admin/report') ?>" class="nav-link">
+                        <i class="nav-icon fa fa-file"></i>
+                        <p>Laporan</p>
+                    </a>
+
                 </li>
                 <li class="nav-header">PENGATURAN</li>
                 <li class="nav-item ">

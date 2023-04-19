@@ -757,6 +757,7 @@ class Admin extends CI_Controller
             $row[] = $d->nama;
             $row[] = $d->alamat;
             $row[] = $d->no_hp;
+            $row[] = $d->tgl_update;
             // $row[] = '<a href="' . base_url('admin/update_data_pemakai/' . $d->id_pemakai) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
             // <button type="button" id="id_pemakai" data-id="' . $d->id_pemakai . '" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></button>';
 
@@ -797,16 +798,19 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
         $this->form_validation->set_rules('alamat', 'Alamat', 'trim|required');
         $this->form_validation->set_rules('no_hp', 'No Hp', 'trim|required');
+        $this->form_validation->set_rules('tgl_update', 'Tanggal Update', 'trim|required');
 
         if ($this->form_validation->run() === TRUE) {
             $nama = $this->input->post('nama', TRUE);
             $alamat = $this->input->post('alamat', TRUE);
             $no_hp = $this->input->post('no_hp', TRUE);
+            $tgl_update = $this->input->post('tgl_update', TRUE);
 
             $data = array(
                 'nama' => $nama,
                 'alamat' => $alamat,
-                'no_hp' => $no_hp
+                'no_hp' => $no_hp,
+                'tgl_update' => $tgl_update
             );
             $this->M_admin->insert('tb_pemakai', $data);
             $this->session->set_flashdata('msg_sukses', 'Data Berhasil Di Tambahkan');
@@ -823,18 +827,21 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nama', 'Nama', 'trim|required');
         $this->form_validation->set_rules('alamat', 'Alamat', 'trim|required');
         $this->form_validation->set_rules('no_hp', 'No Hp', 'trim|required');
+        $this->form_validation->set_rules('tgl_update', 'Tanggal Update', 'trim|required');
 
         if ($this->form_validation->run() === TRUE) {
             $id = $this->input->post('id', TRUE);
             $nama = $this->input->post('nama', TRUE);
             $alamat = $this->input->post('alamat', TRUE);
             $no_hp = $this->input->post('no_hp', TRUE);
+            $tgl_update = $this->input->post('tgl_update', TRUE);
 
             $where = array('id_pemakai' => $id);
             $data = array(
                 'nama' => $nama,
                 'alamat' => $alamat,
-                'no_hp' => $no_hp
+                'no_hp' => $no_hp,
+                'tgl_update' => $tgl_update
             );
             $this->M_admin->update('tb_pemakai', $data, $where);
             $this->session->set_flashdata('msg_sukses', 'Data Berhasil Di Update');
@@ -865,8 +872,40 @@ class Admin extends CI_Controller
         redirect(base_url('admin/tabel_pemakai'));
     }
 
+    public function cetak_pakai()
+    {
+        $tgl_awal = $this->input->post('tgl_awal'); // Ambil data tgl_awal sesuai input (kalau tidak ada set kosong)        
+        $tgl_akhir = $this->input->post('tgl_akhir'); // Ambil data tgl_awal sesuai input (kalau tidak ada set kosong)        
+        // if (empty($tgl_awal) or empty($tgl_akhir)) { // Cek jika tgl_awal atau tgl_akhir kosong, maka :            
+        //     $transaksi = $this->TransaksiModel->view_all();  // Panggil fungsi view_all yang ada di TransaksiModel            
+        //     $label = 'Semua Data Transaksi';
+        // } else { // Jika terisi            
+        // Panggil fungsi view_by_date yang ada di TransaksiModel            
+        // $tgl_awal = date('d-m-Y', strtotime($tgl_awal)); // Ubah format tanggal jadi dd-mm-yyyy           
+        // $tgl_akhir = date('d-m-Y', strtotime($tgl_akhir)); // Ubah format tanggal jadi dd-mm-yyyy            
+        $label = 'Periode Tanggal ' . date('d-m-Y', strtotime($tgl_awal)) . ' s/d ' .  date('d-m-Y', strtotime($tgl_akhir));
+        // }
+        $data['label'] = $label;
+        $data['pakai'] = $this->M_admin->pakai_periode($tgl_awal, $tgl_akhir);
+        // ob_start();
+        // $data = $this->M_admin->pakai_periode($tgl_awal, $tgl_akhir);
+
+        $this->load->view('admin/report/rep_pakai', $data);
+        // $html = ob_get_contents();
+        // ob_end_clean();
+        // require './vendor/autoload.php'; // Load plugin html2pdfnya    
+        // $pdf = new Spipu\Html2Pdf\Html2Pdf('P', 'A4', 'en', array(15, 15, 15, 15), false);  // Settingan PDFnya   
+        // $pdf->WriteHTML($html);
+        // $pdf->Output('Data Transaksi.pdf', 'D');
+    }
     ####################################
     // End Data pemakai 
     ####################################
 
+    public function report()
+    {
+        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['title'] = 'Report';
+        $this->load->view('admin/report/laporan', $data);
+    }
 }

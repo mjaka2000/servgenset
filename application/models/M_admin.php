@@ -77,7 +77,7 @@ class M_admin extends CI_Model
     //set nama tabel yang akan kita tampilkan datanya
     var $tablepakai = 'tb_pemakai';
     //set kolom order, kolom pertama saya null untuk kolom edit dan hapus
-    var $column_order_pakai = array('nama', 'alamat', 'no_hp', null);
+    var $column_order_pakai = array('nama', 'alamat', 'no_hp', 'tgl_update', null);
 
     var $column_search_pakai = array('nama', 'alamat', 'no_hp');
     // default order 
@@ -408,7 +408,18 @@ class M_admin extends CI_Model
         return $query->num_rows();
     }
 
-
+    public function pakai_periode($tgl_awal, $tgl_akhir)
+    {
+        // 
+        $tgl_awal = $this->db->escape($tgl_awal);
+        $tgl_akhir = $this->db->escape($tgl_akhir);
+        $query = $this->db->select()
+            ->from('tb_pemakai')
+            ->where('DATE (tgl_update) BETWEEN ' . $tgl_awal . ' AND ' . $tgl_akhir)
+            ->order_by('tgl_update', 'asc')
+            ->get();
+        return $query->result();
+    }
     ####################################
     //* Data Perbaikan Genset 
     ####################################
