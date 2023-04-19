@@ -62,6 +62,10 @@
                                         <label for="no_hp" class="form-label">No. HP</label>
                                         <input type="text" maxlength="13" name="no_hp" class="form-control" id="no_hp" placeholder="Masukkan No. HP" required onkeypress='return (event.charCode > 47 && event.charCode < 58)' value="<?= $op->no_hp; ?>">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="alamat" class="form-label">Tanggal Update</label>
+                                        <input type="date" name="tgl_update" class="form-control" id="tgl_update" placeholder="Tanggal Update" required value="<?= $op->tgl_update; ?>">
+                                    </div>
                                 <?php } ?>
                                 <hr>
                                 <div class="form-group" align="center">

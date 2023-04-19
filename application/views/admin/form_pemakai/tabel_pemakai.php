@@ -50,6 +50,7 @@
                                         <th>Nama</th>
                                         <th>Alamat</th>
                                         <th>No. HP</th>
+                                        <th>Tanggal Update</th>
                                         <th style="width:10%">Aksi</th>
                                     </tr>
                                 </thead>

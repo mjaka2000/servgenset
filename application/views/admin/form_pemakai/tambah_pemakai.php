@@ -61,6 +61,10 @@
                                     <label for="no_hp" class="form-label">No. HP</label>
                                     <input type="text" maxlength="13" name="no_hp" class="form-control" id="no_hp" placeholder="Masukkan No. HP" required onkeypress='return (event.charCode > 47 && event.charCode < 58)'>
                                 </div>
+                                <div class="form-group">
+                                    <label for="alamat" class="form-label">Tanggal Update</label>
+                                    <input type="date" name="tgl_update" class="form-control" id="tgl_update" placeholder="Tanggal Update" required>
+                                </div>
                                 <hr>
                                 <div class="form-group" align="center">
                                     <a href="<?= base_url('admin/tabel_pemakai'); ?>" type="button" class="btn btn-sm btn-default" name="btn_kembali"><i class="fa fa-arrow-left mr-2"></i>Kembali</a>
