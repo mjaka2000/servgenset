@@ -47,10 +47,17 @@ CREATE TABLE `tb_pemakai` (
   `nama` varchar(50) NOT NULL,
   `alamat` varchar(50) NOT NULL,
   `no_hp` varchar(20) NOT NULL,
+  `tgl_update` date NOT NULL,
   PRIMARY KEY (`id_pemakai`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`) VALUES (1, 'Arul', 'Jl. Batu benawa', '0895619213134');
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`) VALUES (10, 'Adul', 'Jl. AKT', '0895619213134', '2023-04-10');
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`) VALUES (11, 'Aldi', 'Jl. sungai miai', '089561921342', '2023-04-11');
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`) VALUES (12, 'Abu', 'Handil Bakti', '0895619019104', '2023-04-12');
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`) VALUES (13, 'Ahmad Yani', 'Berangas', '0895619211231', '2023-04-13');
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`) VALUES (14, 'Amat', 'BJIB', '0895619213124', '2023-04-14');
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`) VALUES (15, 'Budi', 'Jl. Batu benawa', '0895619213234', '2023-04-17');
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`) VALUES (16, 'Halikin', 'Jl. Sultan', '0895619014532', '2023-04-18');
 
 
 #
@@ -76,9 +83,6 @@ CREATE TABLE `tb_serv_genset` (
   CONSTRAINT `tb_serv_genset_ibfk_2` FOREIGN KEY (`id_sparepart`) REFERENCES `tb_sparepart` (`id_sparepart`),
   CONSTRAINT `tb_serv_genset_ibfk_3` FOREIGN KEY (`id_pemakai`) REFERENCES `tb_pemakai` (`id_pemakai`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-INSERT INTO `tb_serv_genset` (`id_perbaikan_gst`, `id_genset`, `id_sparepart`, `id_pemakai`, `jenis_perbaikan`, `tgl_perbaikan`, `ket_perbaikan`, `biaya_perbaikan`) VALUES (1, 2, 1, 1, 'oli', '2023-04-05', 'Selesai Diperbaiki', '100000');
-
 
 #
 # TABLE STRUCTURE FOR: tb_sparepart
@@ -115,6 +119,6 @@ CREATE TABLE `tb_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-INSERT INTO `tb_user` (`id`, `username`, `nama`, `password`, `role`, `last_login`) VALUES (1, 'admin', 'admin1', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, '17-04-2023 14:36');
+INSERT INTO `tb_user` (`id`, `username`, `nama`, `password`, `role`, `last_login`) VALUES (1, 'admin', 'admin1', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, '23-04-2023 17:36');
 
 
