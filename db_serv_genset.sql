@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Apr 2023 pada 06.17
+-- Waktu pembuatan: 22 Bulan Mei 2023 pada 11.24
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -63,8 +63,7 @@ CREATE TABLE `tb_genset` (
 
 INSERT INTO `tb_genset` (`id_genset`, `kode_genset`, `nama_genset`, `daya`, `harga`, `stok_gd`, `stok_pj`, `gambar_genset`) VALUES
 (2, '02', 'Hartech 45 P-02', '40', '1000000', '1', '0', 'ht45p-02.jpg'),
-(3, '07', 'Denyo 25 ES-07', '20', '750000', '1', '0', 'denyo25es-07.jpg'),
-(4, '10', 'Denyo 25 ES-10', '20', '750000', '1', '0', 'denyo25es-10.jpg');
+(3, '07', 'Denyo 25 ES-07', '20', '750000', '1', '0', 'denyo25es-07.jpg');
 
 -- --------------------------------------------------------
 
@@ -76,15 +75,22 @@ CREATE TABLE `tb_pemakai` (
   `id_pemakai` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
   `alamat` varchar(50) NOT NULL,
-  `no_hp` varchar(20) NOT NULL
+  `no_hp` varchar(20) NOT NULL,
+  `tgl_update` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `tb_pemakai`
 --
 
-INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`) VALUES
-(1, 'Arul', 'Jl. Batu benawa', '0895619213134');
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`) VALUES
+(10, 'Adul', 'Jl. AKT', '0895619213134', '2023-04-10'),
+(11, 'Aldi', 'Jl. sungai miai', '089561921342', '2023-04-11'),
+(12, 'Abu', 'Handil Bakti', '0895619019104', '2023-04-12'),
+(13, 'Ahmad Yani', 'Berangas', '0895619211231', '2023-04-13'),
+(14, 'Amat', 'BJIB', '0895619213124', '2023-04-14'),
+(15, 'Budi', 'Jl. Batu benawa', '0895619213234', '2023-04-17'),
+(16, 'Halikin', 'Jl. Sultan', '0895619014532', '2023-04-18');
 
 -- --------------------------------------------------------
 
@@ -108,7 +114,8 @@ CREATE TABLE `tb_serv_genset` (
 --
 
 INSERT INTO `tb_serv_genset` (`id_perbaikan_gst`, `id_genset`, `id_sparepart`, `id_pemakai`, `jenis_perbaikan`, `tgl_perbaikan`, `ket_perbaikan`, `biaya_perbaikan`) VALUES
-(1, 2, 1, 1, 'oli', '2023-04-05', 'Selesai Diperbaiki', '100000');
+(3, 2, 1, 10, 'Filter masuk angin', '2023-04-21', 'Selesai Diperbaiki', '0'),
+(4, 2, 2, 11, 'Ganti Oli', '2023-04-20', 'Selesai Diperbaiki', '100000');
 
 -- --------------------------------------------------------
 
@@ -129,8 +136,8 @@ CREATE TABLE `tb_sparepart` (
 --
 
 INSERT INTO `tb_sparepart` (`id_sparepart`, `nama_sparepart`, `tanggal_beli`, `tempat_beli`, `stok`) VALUES
-(1, 'Filter Oli Donaldson', '2023-04-04', 'Multi Filter', '1'),
-(2, 'oli sx', '2023-04-03', 'Bengkel Yuno', '1');
+(1, 'Filter Oli Donaldson', '2023-04-04', 'Multi Filter', '2'),
+(2, 'oli sx', '2023-04-03', 'Bengkel Yuno', '0');
 
 -- --------------------------------------------------------
 
@@ -152,7 +159,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id`, `username`, `nama`, `password`, `role`, `last_login`) VALUES
-(1, 'admin', 'admin1', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, '06-04-2023 10:34');
+(1, 'admin', 'admin1', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, '23-04-2023 17:54');
 
 --
 -- Indexes for dumped tables
@@ -217,13 +224,13 @@ ALTER TABLE `tb_genset`
 -- AUTO_INCREMENT untuk tabel `tb_pemakai`
 --
 ALTER TABLE `tb_pemakai`
-  MODIFY `id_pemakai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pemakai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_serv_genset`
 --
 ALTER TABLE `tb_serv_genset`
-  MODIFY `id_perbaikan_gst` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_perbaikan_gst` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_sparepart`
