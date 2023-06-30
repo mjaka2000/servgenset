@@ -37,7 +37,7 @@
                         </div>
                         <div class="card-body">
                             <table id="tablepakai" class="table table-bordered table-hover" style="width:100%">
-                                <form action="<?= base_url(); ?>admin/cetak_pakai" method="post" role="form" target="_blank">
+                                <form action="<?= base_url(); ?>laporan/pemakai" method="get" role="form" target="_blank">
                                     <tr>
                                         <th style="vertical-align: middle; line-height: 15px;">Laporan Pemakai</th>
                                         <td style="vertical-align: middle;">

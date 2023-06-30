@@ -13,8 +13,11 @@ class Laporan extends CI_Controller
 
     public function pemakai()
     {
+        $tgl_awal = $this->input->get('tgl_awal');
+        $tgl_akhir = $this->input->get('tgl_akhir');
+        $label = 'Periode Tanggal ' . date('d-m-Y', strtotime($tgl_awal)) . ' s/d ' .  date('d-m-Y', strtotime($tgl_akhir));
 
-        $data = $this->M_admin->pakai_periode('tb_pemakai');
+        $data = $this->M_admin->pakai_periode($tgl_awal, $tgl_akhir);
 
 
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
