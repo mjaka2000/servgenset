@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Bulan Mei 2023 pada 11.24
+-- Waktu pembuatan: 18 Jul 2023 pada 13.31
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -149,6 +149,7 @@ CREATE TABLE `tb_user` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `nama` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
   `role` tinyint(4) NOT NULL,
   `last_login` varchar(20) NOT NULL
@@ -158,8 +159,8 @@ CREATE TABLE `tb_user` (
 -- Dumping data untuk tabel `tb_user`
 --
 
-INSERT INTO `tb_user` (`id`, `username`, `nama`, `password`, `role`, `last_login`) VALUES
-(1, 'admin', 'admin1', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, '23-04-2023 17:54');
+INSERT INTO `tb_user` (`id`, `username`, `nama`, `email`, `password`, `role`, `last_login`) VALUES
+(1, 'admin', 'admin1', 'jakamuhammad28@gmail.com', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, '18-07-2023 16:59');
 
 --
 -- Indexes for dumped tables
