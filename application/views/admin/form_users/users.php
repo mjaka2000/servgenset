@@ -48,6 +48,7 @@
                                     <tr>
                                         <th style="width :10px">No.</th>
                                         <th>Nama</th>
+                                        <th>Email</th>
                                         <th>Username</th>
                                         <th>Role</th>
                                         <th>Last Login</th>
@@ -62,6 +63,7 @@
                                             <tr>
                                                 <td><?= $no++; ?></td>
                                                 <td><?= $u->nama ?></td>
+                                                <td><?= $u->email ?></td>
                                                 <td><?= $u->username ?></td>
                                                 <?php if ($u->role == 0) { ?>
                                                     <td>User Admin</td>

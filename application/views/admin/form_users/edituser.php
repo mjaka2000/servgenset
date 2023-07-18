@@ -54,6 +54,10 @@
                                         <input type="text" name="nama" class="form-control" id="nama" placeholder="Nama" required="" value="<?= $d->nama; ?>">
                                     </div>
                                     <div class="form-group">
+                                        <label for="nama" class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control" id="email" placeholder="Email" required="" value="<?= $d->email; ?>">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="username" class="form-label">Username</label>
                                         <input type="text" name="username" class="form-control" id="username" placeholder="Username" required="" value="<?= $d->username; ?>">
                                     </div>
