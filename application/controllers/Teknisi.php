@@ -4,22 +4,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Teknisi extends CI_Controller
 {
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('M_admin');
+        $this->load->library('upload');
+        if ($this->session->userdata('role') != '1') {
+            redirect(site_url("login"));
+        }
+    }
 
     public function index()
     {
-        /*if ($this->session->userdata('status') == 'login' && $this->session->userdata('role') == 1) {
-            $data['avatar'] = $this->M_pimpinan->get_data_gambar(' tb_upload_gambar_user', $this->session->userdata('name'));
-            $data['title'] = 'Home';
-            $this->load->view('pimpinan/index', $data);
-        } else {
-            $this->load->view('login/login');
-        }*/
-        if ($this->session->userdata('status') == 'login' && $this->session->userdata('role') == 1) {
 
 
-            echo "<h1>Halaman Teknisi Coming Soon</h1>";
-        } else {
-            $this->load->view('login/login');
-        }
+        echo "<h1>Halaman Teknisi Coming Soon</h1>";
     }
 }
