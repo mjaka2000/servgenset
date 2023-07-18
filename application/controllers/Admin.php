@@ -81,6 +81,7 @@ class Admin extends CI_Controller
     public function proses_tambahuser()
     {
         $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
@@ -88,12 +89,14 @@ class Admin extends CI_Controller
         if ($this->form_validation->run() == true) {
 
             $nama     = $this->input->post('nama', true);
+            $email     = $this->input->post('email', true);
             $username     = $this->input->post('username', true);
             $password     = $this->input->post('password', true);
             $role         = $this->input->post('role', true);
 
             $data = array(
                 'nama'    => $nama,
+                'email'    => $email,
                 'username'    => $username,
                 'password'     => $this->hash_password($password),
                 'role'         => $role,
@@ -147,12 +150,14 @@ class Admin extends CI_Controller
         if ($this->form_validation->run() == true) {
             $id    = $this->input->post('id', true);
             $username    = $this->input->post('username', true);
+            $email     = $this->input->post('email', true);
             $nama    = $this->input->post('nama', true);
             $role = $this->input->post('role', true);
 
             $where = array('id' => $id);
             $data = array(
                 'username' => $username,
+                'email'    => $email,
                 'nama' => $nama,
                 'role' => $role,
             );
@@ -911,9 +916,40 @@ class Admin extends CI_Controller
 
     public function email()
     {
+        $data['list_email'] = $this->M_admin->select('tb_user');
         $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
         $data['title'] = 'email';
-        $this->load->view('admin/email/email', $data);
+        $this->load->view('admin/email/v_email', $data);
+    }
+
+    public function kirim()
+    {
+        $email_penerima = $this->input->post('email_penerima');
+        $subjek = $this->input->post('subjek');
+        $pesan = $this->input->post('pesan');
+        $attachment = $_FILES['attachment'];
+        $content = $this->load->view('admin/email/content', array('pesan' => $pesan), true); // Ambil isi file content.php dan masukan ke variabel $content
+        $sendmail = array(
+            'email_penerima' => $email_penerima,
+            'subjek' => $subjek,
+            'content' => $content,
+            'attachment' => $attachment
+        );
+        if (empty($attachment['name'])) {
+            $send = $this->mailer->send($sendmail);
+        } else {
+            $send = $this->mailer->send_with_attachment($sendmail);
+        }
+
+        echo "<b>" . $send['status'] . "</b><br />";
+        echo $send['message'];
+
+        // $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        // $data['title'] = 'email';
+        // $this->load->view('admin/email/v_email', $data);
+
+        // redirect(base_url('admin/email'));
+        echo "<br /><a href='" . base_url("admin/email") . "'>Kembali ke Form</a>";
     }
 
     public function send()
