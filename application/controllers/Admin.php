@@ -8,25 +8,21 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         $this->load->model('M_admin');
+        $this->load->library('mailer');
         $this->load->library('upload');
-        if ($this->session->userdata('status') != 'login') {
-            redirect(base_url("login"));
+        if ($this->session->userdata('role') != '0') {
+            redirect(site_url("login"));
         }
     }
+
     public function index()
     {
-        if ($this->session->userdata('status') == 'login' && $this->session->userdata('role') == 0) {
-            $data['count'] = $this->M_admin->notif_stok('tb_sparepart');
-            $data['num'] = $this->M_admin->notif_stok_jml('tb_sparepart');
-            $data['dataUser'] = $this->M_admin->numrows('tb_user');
-            $data['avatar'] = $this->M_admin->get_data_avatar(' tb_avatar', $this->session->userdata('name'));
-            $data['title'] = 'Home';
-            $this->load->view('admin/index', $data);
-        } else {
-            $this->load->view('login/login');
-        }
-        // echo ("<h1>Ini admin</h1> ");
-
+        $data['count'] = $this->M_admin->notif_stok('tb_sparepart');
+        $data['num'] = $this->M_admin->notif_stok_jml('tb_sparepart');
+        $data['dataUser'] = $this->M_admin->numrows('tb_user');
+        $data['avatar'] = $this->M_admin->get_data_avatar(' tb_avatar', $this->session->userdata('name'));
+        $data['title'] = 'Home';
+        $this->load->view('admin/index', $data);
     }
     public function signout()
     {
@@ -907,5 +903,42 @@ class Admin extends CI_Controller
         $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
         $data['title'] = 'Report';
         $this->load->view('admin/report/laporan', $data);
+    }
+
+    ####################################
+    // test email 
+    ####################################
+
+    public function email()
+    {
+        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['title'] = 'email';
+        $this->load->view('admin/email/email', $data);
+    }
+
+    public function send()
+    {
+
+        $email_penerima = $this->input->post('email_penerima');
+        $subjek = $this->input->post('subjek');
+        $pesan = $this->input->post('pesan');
+        $attachment = $_FILES['attachment'];
+        $content = $this->load->view('admin/email/content', array('pesan' => $pesan), true); // Ambil isi file content.php dan masukan ke variabel $content
+        $sendmail = array(
+            'email_penerima' => $email_penerima,
+            'subjek' => $subjek,
+            'content' => $content,
+            'attachment' => $attachment
+        );
+
+        if (empty($attachment['name'])) { // Jika tanpa attachment
+            $send = $this->mailer->send($sendmail); // Panggil fungsi send yang ada di librari Mailer
+        } else { // Jika dengan attachment
+            $send = $this->mailer->send_with_attachment($sendmail); // Panggil fungsi send_with_attachment yang ada di librari Mailer
+        }
+
+        echo "<b>" . $send['status'] . "</b><br />";
+        echo $send['message'];
+        echo "<br /><a href='" . base_url("admin/email") . "'>Kembali ke Form</a>";
     }
 }
