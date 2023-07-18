@@ -73,6 +73,13 @@
                     </a>
 
                 </li>
+                <li class="nav-item">
+                    <a href="<?= base_url('admin/email') ?>" class="nav-link">
+                        <i class="nav-icon fa fa-file"></i>
+                        <p>email</p>
+                    </a>
+
+                </li>
                 <li class="nav-header">PENGATURAN</li>
                 <li class="nav-item ">
                     <a href="#" class="nav-link">
