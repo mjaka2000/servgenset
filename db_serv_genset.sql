@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jul 2023 pada 13.31
+-- Waktu pembuatan: 05 Agu 2023 pada 08.25
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -90,7 +90,9 @@ INSERT INTO `tb_pemakai` (`id_pemakai`, `nama`, `alamat`, `no_hp`, `tgl_update`)
 (13, 'Ahmad Yani', 'Berangas', '0895619211231', '2023-04-13'),
 (14, 'Amat', 'BJIB', '0895619213124', '2023-04-14'),
 (15, 'Budi', 'Jl. Batu benawa', '0895619213234', '2023-04-17'),
-(16, 'Halikin', 'Jl. Sultan', '0895619014532', '2023-04-18');
+(16, 'Halikin', 'Jl. Sultan', '0895619014532', '2023-04-18'),
+(17, 'jek', 'jl su', '0812038438492', '2023-08-05'),
+(18, 'tuas', 'rgrrsujing', '08675555656', '2023-08-05');
 
 -- --------------------------------------------------------
 
@@ -160,7 +162,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id`, `username`, `nama`, `email`, `password`, `role`, `last_login`) VALUES
-(1, 'admin', 'admin1', 'jakamuhammad28@gmail.com', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, '18-07-2023 16:59');
+(1, 'admin', 'admin1', 'jakamuhammad28@gmail.com', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, '05-08-2023 13:12');
 
 --
 -- Indexes for dumped tables
@@ -225,7 +227,7 @@ ALTER TABLE `tb_genset`
 -- AUTO_INCREMENT untuk tabel `tb_pemakai`
 --
 ALTER TABLE `tb_pemakai`
-  MODIFY `id_pemakai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_pemakai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_serv_genset`
