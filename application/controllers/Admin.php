@@ -737,45 +737,50 @@ class Admin extends CI_Controller
 
     public function tabel_pemakai()
     {
-        // $data['list_pemakai'] = $this->M_admin->select('tb_pemakai');
+        // $where = array('id_pemakai');
+        $data['list_pemakai'] = $this->M_admin->select('tb_pemakai');
+        // $data['edit_data'] = $this->M_admin->get_data('tb_pemakai', $where);
+
         $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
         $data['title'] = 'Data Pemakai';
         $this->load->view('admin/form_pemakai/tabel_pemakai', $data);
     }
 
-    public function ajax_list_pakai()
-    {
-        header('Content-Type: application/json');
-        $list_data = $this->M_admin->get_datatables_pakai();
-        $data = array();
-        $no = $this->input->post('start');
-        //looping data mahasiswa
-        foreach ($list_data as $d) {
-            $no++;
-            $row = array();
-            //row pertama akan kita gunakan untuk btn edit dan delete
-            $row[] = $no;
-            $row[] = $d->nama;
-            $row[] = $d->alamat;
-            $row[] = $d->no_hp;
-            $row[] = $d->tgl_update;
-            // $row[] = '<a href="' . base_url('admin/update_data_pemakai/' . $d->id_pemakai) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
-            // <button type="button" id="id_pemakai" data-id="' . $d->id_pemakai . '" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></button>';
+    // public function ajax_list_pakai()
+    // {
+    //     header('Content-Type: application/json');
+    //     $list_data = $this->M_admin->get_datatables_pakai();
+    //     $edit_data = $this->M_admin->get_data('tb_pemakai');
+    //     $data = array();
+    //     $no = $this->input->post('start');
+    //     //looping data mahasiswa
+    //     foreach ($list_data as $d) {
+    //         $no++;
+    //         $row = array();
+    //         //row pertama akan kita gunakan untuk btn edit dan delete
+    //         $row[] = $no;
+    //         $row[] = $d->nama;
+    //         $row[] = $d->alamat;
+    //         $row[] = $d->no_hp;
+    //         $row[] = $d->tgl_update;
+    //         // $row[] = '<a href="' . base_url('admin/update_data_pemakai/' . $d->id_pemakai) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+    //         // <button type="button" id="id_pemakai" data-id="' . $d->id_pemakai . '" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></button>';
 
-            $row[] = '<a href="' . base_url('admin/update_data_pemakai/' . $d->id_pemakai) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
-            <a href="' . base_url('admin/hapus_pemakai/' . $d->id_pemakai) . '" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
-            // $row[] = $aksi;
-            $data[] = $row;
-        }
-        $output = array(
-            "draw" => $this->input->post('draw'),
-            "recordsTotal" => $this->M_admin->count_all_pakai(),
-            "recordsFiltered" => $this->M_admin->count_filtered_pakai(),
-            "data" => $data,
-        );
-        //output to json format
-        $this->output->set_output(json_encode($output));
-    }
+    //         $row[] = '
+    //         <button data-toggle="modal" data-target="#staticEditPemakai" class="btn btn-info btn-sm"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Tambah Data</button>
+    //         <a href="' . base_url('admin/hapus_pemakai/' . $d->id_pemakai) . '" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
+    //         // $row[] = $aksi;
+    //         $data[] = $row;
+    //     }
+    //     $output = array(
+    //         "draw" => $this->input->post('draw'),
+    //         "recordsTotal" => $this->M_admin->count_all_pakai(),
+    //         "recordsFiltered" => $this->M_admin->count_filtered_pakai(),
+    //         "data" => $data,
+    //     );
+    //     //output to json format
+    //     $this->output->set_output(json_encode($output));
+    // }
 
     public function tambah_data_pemakai()
     {
