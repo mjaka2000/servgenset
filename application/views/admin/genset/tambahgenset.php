@@ -12,9 +12,9 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<?= base_url('admin'); ?>">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('admin/tabel_genset'); ?>">Data Genset</a></li>
-                        <li class="breadcrumb-item active">Tambah Data Genset</li>
+                        <li class="breadcrumb-item"><a href="<?= site_url('admin'); ?>"><i class="fas fa-home"></i></a></li>
+                        <li class="breadcrumb-item"><a href="<?= site_url('admin/tabel_genset'); ?>">Genset</a></li>
+                        <li class="breadcrumb-item active">Tambah Data </li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -97,9 +97,11 @@
         </div><!-- /.container-fluid -->
     </section>
 </div>
-<?php $this->load->view('template/footer'); ?>
 
-<?php $this->load->view('admin/template/script') ?>
+<?php $this->load->view('template/footer'); ?>
+<?php $this->load->view('template/script') ?>
+
+
 
 </body>
 
