@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Des 2023 pada 05.22
+-- Waktu pembuatan: 03 Des 2023 pada 15.15
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -51,6 +51,21 @@ CREATE TABLE `tb_genset` (
   `ket_genset` tinyint(4) NOT NULL DEFAULT 0,
   `gambar_genset` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data untuk tabel `tb_genset`
+--
+
+INSERT INTO `tb_genset` (`id_genset`, `kode_genset`, `nama_genset`, `daya`, `harga`, `ket_genset`, `gambar_genset`) VALUES
+(1, '10', 'Denyo 25 ES-10', '20', '750000', 0, 'denyo25es-10.jpg'),
+(2, '07', 'Denyo 25 ES-07', '20', '750000', 0, 'denyo25es-07.jpg'),
+(3, '13', 'Denyo 25 ES-13', '20', '750000', 0, 'denyo25es-13.jpg'),
+(4, '08', 'Kubota 13-08', '13', '500000', 0, 'kubota13-08.jpg'),
+(5, '02', 'Hartech 45 P-02', '40', '1000000', 0, 'ht45p-02.jpg'),
+(6, '18', 'Hartech 45 P-18', '40', '1000000', 0, 'ht45p-18.jpg'),
+(7, '16', 'Hartech 50 P-16', '50', '1250000', 0, 'ht50p-16.jpg'),
+(8, '200', 'Denyo 150', '150', '2500000', 0, 'denyo_dca-150_spk-200.jpg'),
+(11, '250', 'Hartech C-250', '250', '3500000', 0, 'ht250.jpg');
 
 -- --------------------------------------------------------
 
@@ -148,7 +163,7 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `username`, `nama`, `password`, `role`, `nama_file`, `last_login`) VALUES
-(1, 'admin', 'admin1', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, 'Muhammad_Jaka_Permana_(Latar_Merah)-square.jpg', '03-12-2023 12:07');
+(1, 'admin', 'admin1', '$2y$10$aO3xt9YrcbuTWoyMr92ksu5jQBccl2e4U7wKk3Yr29RcZ2LPOeFUm', 0, 'Muhammad_Jaka_Permana_(Latar_Merah)-square.jpg', '03-12-2023 21:41');
 
 --
 -- Indexes for dumped tables
@@ -219,7 +234,7 @@ ALTER TABLE `tb_detail_serv`
 -- AUTO_INCREMENT untuk tabel `tb_genset`
 --
 ALTER TABLE `tb_genset`
-  MODIFY `id_genset` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_genset` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pemakai`
