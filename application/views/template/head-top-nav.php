@@ -1,5 +1,4 @@
     <!DOCTYPE html>
-
     <html lang="en">
 
     <head>
@@ -13,6 +12,7 @@
       <link rel="stylesheet" href="<?= base_url(); ?>assets/admin32/plugins/fontawesome-free/css/all.min.css">
       <!-- Theme style -->
       <link rel="stylesheet" href="<?= base_url(); ?>assets/admin32/dist/css/adminlte.min.css">
+
       <!-- addon css -->
       <link rel="stylesheet" href="<?= base_url() ?>assets/style/style.css">
 
@@ -23,9 +23,7 @@
       <link rel="stylesheet" href="<?= base_url(); ?>assets/sweetalert2/sweetalert2.css">
       <link rel="stylesheet" href="<?= base_url(); ?>assets/sweetalert2/sweetalert2.min.css">
       <link rel="icon" href="<?= base_url(); ?>assets/style/logo/ws-w.png">
-
-
     </head>
 
-    <body class="hold-transition sidebar-mini text-sm">
+    <body class="hold-transition layout-top-nav text-sm">
       <div class="wrapper">
