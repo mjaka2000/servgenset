@@ -27,64 +27,66 @@
 
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card" style="width: 30%; margin-left: 35%;">
+            <div class="row tengah">
+
+                <div class="col-md-5">
+                    <div class="card">
                         <div class="card-header">
                             Tambah Data Genset
                         </div>
                         <div class="card-body">
                             <?php if ($this->session->flashdata('msg_sukses')) { ?>
                                 <div class="alert alert-success alert-dismissable">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <button class="close" data-dismiss="alert" aria-label="close">&times;</button>
                                     <strong>Berhasil!</strong><br> <?= $this->session->flashdata('msg_sukses'); ?>
                                 </div>
                             <?php } ?>
                             <?php if (validation_errors()) { ?>
                                 <div class="alert alert-warning alert-dismissable">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <strong>Perhatian!</strong><br> <?php echo validation_errors(); ?>
+                                    <button class="close" data-dismiss="alert" aria-label="close">&times;</button>
+                                    <strong>Peringatan!</strong><br> <?php echo validation_errors(); ?>
                                 </div>
                             <?php } ?>
 
-                            <form action="<?= base_url('admin/proses_tambahgenset'); ?>" method="post" role="form" enctype="multipart/form-data">
+                            <form action="<?= site_url('admin/proses_tambahgenset'); ?>" method="post" role="form" enctype="multipart/form-data">
 
                                 <div class="form-group">
                                     <label for="kode_genset" class="form-label">Nomor Genset</label>
+
                                     <input type="text" name="kode_genset" class="form-control" id="kode_genset" placeholder="Masukkan Nomor Genset" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="nama_genset" class="form-label">Nama Genset</label>
+
                                     <input type="text" name="nama_genset" class="form-control" id="nama_genset" placeholder="Masukkan Nama Genset" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="daya" class="form-label">Daya (KVA)</label>
+
                                     <input type="text" name="daya" class="form-control" id="daya" placeholder="Daya" required onkeypress='return (event.charCode > 47 && event.charCode < 58)'>
                                 </div>
                                 <div class="form-group">
                                     <label for="harga" class="form-label">Harga</label>
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon">Rp</span>
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon">Rp</span>
+                                        </div>
                                         <input type="text" name="harga" class="form-control" id="harga" placeholder="Harga Unit Perhari" required onkeypress='return (event.charCode > 47 && event.charCode < 58)'>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="stok_gd" class="form-label">Unit Digudang</label>
-                                    <input type="number" name="stok_gd" class="form-control" id="stok_gd" placeholder="Unit Digudang" value="0" required onkeypress='return (event.charCode > 47 && event.charCode < 58)'>
-                                </div>
-                                <div class="form-group">
-                                    <label for="stok_pj" class="form-label">Unit Disewakan</label>
-                                    <input type="number" name="stok_pj" class="form-control" id="stok_pj" placeholder="Unit Disewakan" value="0" required onkeypress='return (event.charCode > 47 && event.charCode < 58)'>
-                                </div>
+
                                 <div class="form-group">
                                     <label for="gambar_genset" class="form-label">Gambar Genset</label>
-                                    <input type="file" name="gambar_genset" class="form-control" id="gambar_genset">
-                                </div>
 
+                                    <input type="file" name="gambar_genset" class="form-control" id="gambar_genset">
+                                    <small style="color: red;">
+                                        <p>*File yang diijinkan "jpg|png|jpeg", max size 2MB.</p>
+                                    </small>
+                                </div>
                                 <hr>
                                 <div class="form-group" align="center">
-                                    <a href="<?= base_url('admin/tabel_genset'); ?>" type="button" class="btn btn-sm btn-default" name="btn_kembali"><i class="fa fa-arrow-left mr-2"></i>Kembali</a>
-                                    <button type="reset" class="btn btn-sm btn-warning"><i class="fa fa-eraser mr-2"></i>Reset</button>
+                                    <button onclick="history.back(-1)" type="button" class="btn btn-sm btn-default" name="btn_kembali"><i class="fa fa-arrow-left mr-2"></i>Kembali</button>
                                     <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-check mr-2"></i>Submit</button>
                                 </div>
                             </form>

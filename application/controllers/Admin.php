@@ -20,7 +20,7 @@ class Admin extends CI_Controller
         $data['count'] = $this->M_admin->notif_stok('tb_sparepart');
         $data['num'] = $this->M_admin->notif_stok_jml('tb_sparepart');
         $data['dataUser'] = $this->M_admin->numrows('tb_user');
-        $data['avatar'] = $this->M_admin->get_data_avatar(' tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar(' tb_user', $this->session->userdata('name'));
         $data['title'] = 'Home';
         $this->load->view('admin/index', $data);
     }
@@ -65,7 +65,7 @@ class Admin extends CI_Controller
     ####################################
     public function users()
     {
-        $data['avatar'] = $this->M_admin->get_data_avatar(' tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar(' tb_user', $this->session->userdata('name'));
         $data['user'] = $this->M_admin->select('tb_user');
         $data['title'] = 'Users';
         $this->load->view('admin/form_users/users', $data);
@@ -73,7 +73,7 @@ class Admin extends CI_Controller
 
     public function tambah_users()
     {
-        $data['avatar'] = $this->M_admin->get_data_avatar(' tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar(' tb_user', $this->session->userdata('name'));
         $data['title'] = 'Tambah User';
         $this->load->view('admin/form_users/tambahuser', $data);
     }
@@ -109,12 +109,12 @@ class Admin extends CI_Controller
             );
 
             $this->M_admin->insert('tb_user', $data);
-            $this->M_admin->insert('tb_avatar', $dataUpload);
+            $this->M_admin->insert('tb_user', $dataUpload);
 
             $this->session->set_flashdata('msg_sukses', 'User Berhasil Ditambahkan');
             redirect(base_url('admin/users'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar(' tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar(' tb_user', $this->session->userdata('name'));
             $header['title'] = 'Tambah User';
             $this->load->view('admin/form_users/tambahuser', $header);
         }
@@ -134,7 +134,7 @@ class Admin extends CI_Controller
 
     public function edit_user()
     {
-        $data['avatar'] = $this->M_admin->get_data_avatar(' tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar(' tb_user', $this->session->userdata('name'));
         $id = $this->uri->segment(3);
         $where = array('id' => $id);
         $data['list_data'] = $this->M_admin->get_data('tb_user', $where);
@@ -165,7 +165,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data User Berhasil Diubah');
             redirect(base_url('admin/users'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar(' tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar(' tb_user', $this->session->userdata('name'));
             $data['title'] = 'Edit User';
             $this->load->view('admin/form_users/edituser', $data);
         }
@@ -179,7 +179,7 @@ class Admin extends CI_Controller
     ####################################
     public function profile()
     {
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Profile';
         $this->load->view('admin/form_users/profile', $data);
         // $this->load->view('admin/profile', $data);
@@ -208,7 +208,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Password Berhasil Diganti, Silahkan Sign Out dan Login Kembali');
             redirect(base_url('admin/profile'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Profile';
             $this->load->view('admin/form_users/profile', $data);
         }
@@ -223,15 +223,15 @@ class Admin extends CI_Controller
             'overwrite'    => true,
             // 'file_name'	=> uniqid(),
             'max_size' => "5000",
-            'max_height' => "1024",
-            'max_width' => "1024"
+            'max_height' => "5000",
+            'max_width' => "5000"
         );
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
 
         if (!$this->upload->do_upload('userpicture')) {
             $this->session->set_flashdata('msg_gambar_error', $this->upload->display_errors());
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Profile';
             $this->load->view('admin/form_users/profile', $data);
         } else {
@@ -239,7 +239,7 @@ class Admin extends CI_Controller
             $nama_file = $data_upload['upload_data']['file_name'];
 
             $where = array(
-                'username_user' => $this->session->userdata('name')
+                'username' => $this->session->userdata('name')
             );
             $data = array(
                 'nama_file' => $nama_file
@@ -260,50 +260,85 @@ class Admin extends CI_Controller
 
     public function tabel_genset()
     {
-        // $data['list_data'] = $this->M_admin->select('tb_genset');
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['list_data'] = $this->M_admin->select('tb_genset');
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Data Genset';
         $this->load->view('admin/form_genset/tabel_genset', $data);
     }
 
-    public function ajax_list_gst()
-    {
-        header('Content-Type: application/json');
-        $list_data = $this->M_admin->get_datatables_gst();
-        $data = array();
-        $no = $this->input->post('start');
-        //looping data mahasiswa
-        foreach ($list_data as $d) {
-            $no++;
-            $row = array();
-            //row pertama akan kita gunakan untuk btn edit dan delete
-            // $row[] =  '<a class="btn btn-success btn-sm"><i class="fa fa-edit"></i> </a>
-            // <a class="btn btn-danger btn-sm "><i class="fa fa-trash"></i> </a>';
-            $row[] = $no;
-            $row[] = $d->kode_genset;
-            $row[] = $d->nama_genset;
-            $row[] = $d->daya;
-            $row[] = number_format($d->harga);
-            $row[] = $d->stok_gd;
-            $row[] = $d->stok_pj;
-            $row[] = '<img src="' . base_url('assets/upload/genset/' . $d->gambar_genset) . '" width="100" height="100">';
-            $row[] = '<a href="' . base_url('admin/update_genset/' . $d->id_genset) . '" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
-            <a href="' . base_url('admin/hapus_data/' . $d->id_genset) . '" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
-            $data[] = $row;
-        }
-        $output = array(
-            "draw" => $this->input->post('draw'),
-            "recordsTotal" => $this->M_admin->count_all_gst(),
-            "recordsFiltered" => $this->M_admin->count_filtered_gst(),
-            "data" => $data,
-        );
-        //output to json format
-        $this->output->set_output(json_encode($output));
-    }
+    // public function ajax_list_gst()
+    // {
+    // header('Content-Type: application/json');
+    // $list_data = $this->M_admin->get_datatables_gst();
+    // $data = array();
+    // $no = $this->input->post('start');
+    //looping data mahasiswa
+    // foreach ($list_data as $d) {
+    //     $no++;
+    //     $row = array();
+    //row pertama akan kita gunakan untuk btn edit dan delete
+    // $row[] =  '<a class="btn btn-success btn-sm"><i class="fa fa-edit"></i> </a>
+    // <a class="btn btn-danger btn-sm "><i class="fa fa-trash"></i> </a>';
+    //     $row[] = $no;
+    //     $row[] = $d->kode_genset;
+    //     $row[] = $d->nama_genset;
+    //     $row[] = $d->daya;
+    //     $row[] = number_format($d->harga);
+    //     if ($d->ket_genset == 0) {
+    //         $row[] = '<td>
+    //     <button type="button" class="btn btn-success btn-xs dropdown-toggle" title="Ubah Status" data-toggle="dropdown">
+    //         Genset Ada
+    //     </button>
+    //     <div class="dropdown-menu">
+    //         <a class="dropdown-item disabled" href="#">Genset Ada</a>
+    //         <a class="dropdown-item" href="' . site_url('admin/ubah_ket_gensetDisewa/' . $d->id_genset) . '">Genset Sedang Disewa</a>
+    //         <a class="dropdown-item" href="' . site_url('admin/ubah_ket_gensetDijadwalkan/' . $d->id_genset) . '">Genset Dijadwalkan</a>
+    //     </div>
+    //     <!-- <a href="#" class="btn btn-success btn-xs">Genset Ada </a> -->
+    // </td>';
+    //     } elseif ($d->ket_genset == 1) {
+    //         $row[] = '<td>
+    //         <button type="button" class="btn btn-danger btn-xs dropdown-toggle" title="Ubah Status" data-toggle="dropdown">
+    //             Genset Sedang Disewa
+    //         </button>
+    //         <div class="dropdown-menu">
+    //             <a class="dropdown-item " href="' . site_url('admin/ubah_ket_gensetAda/' . $d->id_genset) . '">Genset Ada</a>
+    //             <a class="dropdown-item disabled" href="#">Genset Sedang Disewa</a>
+    //             <a class="dropdown-item" href="' . site_url('admin/ubah_ket_gensetDijadwalkan/' . $d->id_genset) . '">Genset Dijadwalkan</a>
+    //         </div>
+    //         <!-- <a href="#" class="btn btn-success btn-xs">Genset Ada </a> -->
+    //         </td>';
+    //     } else {
+    //         $row[] = '<td>
+    //         <button type="button" class="btn btn-warning btn-xs dropdown-toggle" title="Ubah Status" data-toggle="dropdown">
+    //                                                     Genset Dijadwalkan
+    //                                                 </button>
+    //                                                 <div class="dropdown-menu">
+    //                                                     <a class="dropdown-item " href="' . site_url('admin/ubah_ket_gensetAda/' . $d->id_genset) . '">Genset Ada</a>
+    //                                                     <a class="dropdown-item" href="' . site_url('admin/ubah_ket_gensetDisewa/' . $d->id_genset) . '">Genset Sedang Disewa</a>
+    //                                                     <a class="dropdown-item disabled" href="#">Genset Dijadwalkan</a>
+    //                                                 </div>
+    //                                                 <!-- <a href="#" class="btn btn-warning btn-xs"> Genset Dijadwalkan</a> -->
+    //                                             </td>';
+    //     }
+    //     $row[] = '<img src="' . base_url('assets/upload/genset/' . $d->gambar_genset) . '" width="100" height="100">';
+    //     $row[] = '<a href="' . base_url('admin/update_genset/' . $d->id_genset) . '" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
+    //     <a href="' . base_url('admin/hapus_data/' . $d->id_genset) . '" type="button" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></a>';
+    //     $data[] = $row;
+    // }
+    // $output = array(
+    //     "draw" => $this->input->post('draw'),
+    //     "recordsTotal" => $this->M_admin->count_all_gst(),
+    //     "recordsFiltered" => $this->M_admin->count_filtered_gst(),
+    //     "data" => $data,
+    // );
+    //output to json format
+    //     $this->output->set_output(json_encode($output));
+    // }
 
     public function tambah_genset()
     {
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Tambah Genset';
         $this->load->view('admin/form_genset/tambahgenset', $data);
     }
@@ -314,8 +349,8 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('nama_genset', 'Nama Genset', 'trim|required');
         $this->form_validation->set_rules('daya', 'Daya', 'trim|required');
         $this->form_validation->set_rules('harga', 'Harga', 'trim|required');
-        $this->form_validation->set_rules('stok_gd', 'Stok GUdang', 'trim|required');
-        $this->form_validation->set_rules('stok_pj', 'Stok Pinjam', 'trim|required');
+        // $this->form_validation->set_rules('stok_gd', 'Stok GUdang', 'trim|required');
+        // $this->form_validation->set_rules('stok_pj', 'Stok Pinjam', 'trim|required');
 
         if ($this->form_validation->run() == true) {
             $gambar_genset = $this->upload_gambargenset();
@@ -324,16 +359,16 @@ class Admin extends CI_Controller
             $nama_genset = $this->input->post('nama_genset', true);
             $daya = $this->input->post('daya', true);
             $harga = $this->input->post('harga', true);
-            $stok_gd = $this->input->post('stok_gd', true);
-            $stok_pj = $this->input->post('stok_pj', true);
+            // $stok_gd = $this->input->post('stok_gd', true);
+            // $stok_pj = $this->input->post('stok_pj', true);
 
             $data = array(
                 'kode_genset' => $kode_genset,
                 'nama_genset' => $nama_genset,
                 'daya' => $daya,
                 'harga' => $harga,
-                'stok_gd' => $stok_gd,
-                'stok_pj' => $stok_pj,
+                // 'stok_gd' => $stok_gd,
+                // 'stok_pj' => $stok_pj,
                 'gambar_genset' => $gambar_genset
             );
 
@@ -341,7 +376,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data Genset Berhasil Disimpan');
             redirect(base_url('admin/tabel_genset'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Tambah Genset';
             $this->load->view('admin/form_genset/tambahgenset', $data);
         }
@@ -355,9 +390,9 @@ class Admin extends CI_Controller
             'ecrypt_name'    => false,
             'overwrite'    => true,
             // 'file_name'	=> uniqid(),
-            'max_size' => 2048,
-            'max_height' => 1080,
-            'max_width' => 1920
+            'max_size' => 5100, //2048
+            'max_height' => 5000, //1080
+            'max_width' => 5000 //1920
         );
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
@@ -379,7 +414,7 @@ class Admin extends CI_Controller
         $uri = $this->uri->segment(3);
         $where = array('id_genset' => $uri);
         $data['data_genset'] = $this->M_admin->get_data('tb_genset', $where);
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Update Genset';
         $this->load->view('admin/form_genset/updategenset', $data);
     }
@@ -427,7 +462,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data Genset Berhasil Di Update');
             redirect(base_url('admin/tabel_genset'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Update Genset';
             $this->load->view('admin/form_genset/updategenset', $data);
         }
@@ -453,7 +488,7 @@ class Admin extends CI_Controller
     public function tabel_service_genset()
     {
         // $data['list_data'] = $this->M_admin->get_data_service('tb_serv_genset');
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Data Perbaikan Genset';
         $this->load->view('admin/form_service_genset/tabel_service_genset', $data);
     }
@@ -501,7 +536,7 @@ class Admin extends CI_Controller
         $data['list_genset'] = $this->M_admin->select('tb_genset');
         $data['list_sparepart'] = $this->M_admin->select('tb_sparepart');
         $data['list_pemakai'] = $this->M_admin->select('tb_pemakai');
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Tambah Perbaikan Genset';
         $this->load->view('admin/form_service_genset/tambah_service_genset', $data);
     }
@@ -544,7 +579,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data Berhasil Di Tambah');
             redirect(base_url('admin/tabel_service_genset'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Tambah Perbaikan Genset';
             $this->load->view('admin/form_service_genset/tambah_service_genset', $data);
         }
@@ -558,7 +593,7 @@ class Admin extends CI_Controller
         $uri = $this->uri->segment(3);
         $where = array('id_perbaikan_gst' => $uri);
         $data['list_data'] = $this->M_admin->get_data('tb_serv_genset', $where);
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Update Perbaikan Genset';
         $this->load->view('admin/form_service_genset/update_service_genset', $data);
     }
@@ -603,7 +638,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data Berhasil Di Update');
             redirect(base_url('admin/tabel_service_genset'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Update Perbaikan Genset';
             $this->load->view('admin/form_service_genset/update_service_genset', $data);
         }
@@ -633,14 +668,14 @@ class Admin extends CI_Controller
         $data['num'] = $this->M_admin->notif_stok_jml('tb_sparepart');
 
         $data['list_sparepart'] = $this->M_admin->select('tb_sparepart');
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Data Sparepart';
         $this->load->view('admin/form_sparepart/tabel_sparepart', $data);
     }
 
     public function tambah_data_sparepart()
     {
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Tambah Stok Sparepart';
         $this->load->view('admin/form_sparepart/tambah_sparepart', $data);
     }
@@ -670,7 +705,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data Sparepart Berhasil Ditambah');
             redirect(base_url('admin/tabel_sparepart'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Tambah Stok Sparepart';
             $this->load->view('admin/form_sparepart/tambah_sparepart', $data);
         }
@@ -681,7 +716,7 @@ class Admin extends CI_Controller
         $uri = $this->uri->segment(3);
         $where = array('id_sparepart' => $uri);
         $data['data_sparepart'] = $this->M_admin->get_data('tb_sparepart', $where);
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Edit Stok Sparepart';
         $this->load->view('admin/form_sparepart/update_sparepart', $data);
     }
@@ -712,7 +747,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data Sparepart Berhasil Diupdate');
             redirect(base_url('admin/tabel_sparepart'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Edit Stok Sparepart';
             $this->load->view('admin/form_sparepart/update_sparepart', $data);
         }
@@ -741,7 +776,7 @@ class Admin extends CI_Controller
         $data['list_pemakai'] = $this->M_admin->select('tb_pemakai');
         // $data['edit_data'] = $this->M_admin->get_data('tb_pemakai', $where);
 
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Data Pemakai';
         $this->load->view('admin/form_pemakai/tabel_pemakai', $data);
     }
@@ -784,7 +819,7 @@ class Admin extends CI_Controller
 
     public function tambah_data_pemakai()
     {
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Tambah Data Pemakai';
         $this->load->view('admin/form_pemakai/tambah_pemakai', $data);
     }
@@ -794,7 +829,7 @@ class Admin extends CI_Controller
         $uri = $this->uri->segment(3);
         $where = array('id_pemakai' => $uri);
         $data['list_data'] = $this->M_admin->get_data('tb_pemakai', $where);
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Update Data Pemakai';
         $this->load->view('admin/form_pemakai/edit_pemakai', $data);
     }
@@ -822,7 +857,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data Berhasil Di Tambahkan');
             redirect(base_url('admin/tabel_pemakai'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Tambah Data Pemakai';
             $this->load->view('admin/form_pemakai/tambah_pemakai');
         }
@@ -853,7 +888,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('msg_sukses', 'Data Berhasil Di Update');
             redirect(base_url('admin/tabel_pemakai'));
         } else {
-            $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+            $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Update Data Pemakai';
             $this->load->view('admin/form_pemakai/update_pemakai');
         }
@@ -910,7 +945,7 @@ class Admin extends CI_Controller
 
     public function report()
     {
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Report';
         $this->load->view('admin/report/laporan', $data);
     }
@@ -922,7 +957,7 @@ class Admin extends CI_Controller
     public function email()
     {
         $data['list_email'] = $this->M_admin->select('tb_user');
-        $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'email';
         $this->load->view('admin/email/v_email', $data);
     }
@@ -949,7 +984,7 @@ class Admin extends CI_Controller
         echo "<b>" . $send['status'] . "</b><br />";
         echo $send['message'];
 
-        // $data['avatar'] = $this->M_admin->get_data_avatar('tb_avatar', $this->session->userdata('name'));
+        // $data['avatar'] = $this->M_admin->get_avatar('tb_user', $this->session->userdata('name'));
         // $data['title'] = 'email';
         // $this->load->view('admin/email/v_email', $data);
 

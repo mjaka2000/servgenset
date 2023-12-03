@@ -233,6 +233,35 @@ class M_admin extends CI_Model
     }
 
     ####################################
+    //! Batas Query User (Jangan diubah)
+    ####################################
+
+    public function get_avatar($tabel, $username) // Query get avatar User
+    {
+        $query = $this->db->select()
+            ->from($tabel)
+            ->where('username', $username)
+            ->get();
+        return $query->result();
+    }
+
+    public function update_avatar($where, $data) // Query update Avatar User
+    {
+        $this->db->set($data);
+        $this->db->where($where);
+        $this->db->update('tb_user');
+    }
+
+    public function update_password($tabel, $where, $data) // Update password user
+    {
+        $this->db->where($where);
+        $this->db->update($tabel, $data);
+    }
+
+    ####################################
+    //! End Batas Query User (Jangan diubah)
+    ####################################
+    ####################################
     //! Old Query 
     ####################################
 
@@ -305,11 +334,11 @@ class M_admin extends CI_Model
         $this->db->update($tabel);
     }
 
-    public function update_password($tabel, $where, $data)
-    {
-        $this->db->where($where);
-        $this->db->update($tabel, $data);
-    }
+    // public function update_password($tabel, $where, $data)
+    // {
+    //     $this->db->where($where);
+    //     $this->db->update($tabel, $data);
+    // }
 
     public function get_data_gambar($tabel, $username)
     {
@@ -383,12 +412,12 @@ class M_admin extends CI_Model
         return $query->result();
     }
 
-    public function update_avatar($where, $data)
-    {
-        $this->db->set($data);
-        $this->db->where($where);
-        $this->db->update('tb_avatar');
-    }
+    // public function update_avatar($where, $data)
+    // {
+    //     $this->db->set($data);
+    //     $this->db->where($where);
+    //     $this->db->update('tb_avatar');
+    // }
 
 
     public function notif_stok($tabel)
