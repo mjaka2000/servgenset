@@ -567,7 +567,7 @@ class Admin extends CI_Controller
         // $data['list_data'] = $this->M_data->get_data_service('tb_serv_genset');
         $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Data Perbaikan Genset';
-        $this->load->view('admin/form_service_genset/tabel_service_genset', $data);
+        $this->load->view('admin/service_genset/tabel_service_genset', $data);
     }
 
     public function ajax_list_serv()
@@ -588,7 +588,12 @@ class Admin extends CI_Controller
             $row[] = $d->nama_sparepart;
             $row[] = $d->tgl_perbaikan;
             $row[] = $d->nama;
-            $row[] = $d->ket_perbaikan;
+            if ($d->ket_perbaikan == "1") {
+                $row[] = '<td><span class="badge badge-success">Selesai Diperbaiki</span></td>';
+            } else {;
+                $row[] = '<td><span class="badge badge-danger">Masih Proses</span></td>';
+            };
+            // $row[] = $d->ket_perbaikan;
             $row[] = $d->biaya_perbaikan;
             // $row[] = '<a href="' . base_url('admin/update_data_pemakai/' . $d->id_pemakai) . '" id="id_pemakai" type="button" class="btn btn-sm btn-info" name="btn_edit"><i class="fa fa-edit mr-2"></i></a>
             // <button type="button" id="id_pemakai" data-id="' . $d->id_pemakai . '" class="btn btn-sm btn-danger btn-delete" name="btn_delete"><i class="fa fa-trash mr-2"></i></button>';
@@ -615,7 +620,7 @@ class Admin extends CI_Controller
         $data['list_pemakai'] = $this->M_data->select('tb_pemakai');
         $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Tambah Perbaikan Genset';
-        $this->load->view('admin/form_service_genset/tambah_service_genset', $data);
+        $this->load->view('admin/service_genset/tambah_service_genset', $data);
     }
 
     public function proses_tambah_service_genset()
@@ -625,6 +630,7 @@ class Admin extends CI_Controller
         // $this->form_validation->set_rules('nama_genset', 'Nama Genset', 'trim|required');
         $this->form_validation->set_rules('jenis_perbaikan', 'Jenis Perbaikan', 'trim|required');
         $this->form_validation->set_rules('tgl_perbaikan', 'Tanggal Perbaikan', 'trim|required');
+        $this->form_validation->set_rules('jam_pakai', 'Hours Meter Genset', 'trim|required');
         $this->form_validation->set_rules('ket_perbaikan', 'Keterangan Perbaikan', 'trim|required');
         $this->form_validation->set_rules('biaya_perbaikan', 'Biaya Perbaikan', 'trim|required');
 
@@ -637,6 +643,7 @@ class Admin extends CI_Controller
             $jenis_perbaikan = $this->input->post('jenis_perbaikan', true);
             $spare_part = $this->input->post('id_sparepart', true);
             $tgl_perbaikan = $this->input->post('tgl_perbaikan', true);
+            $jam_pakai = $this->input->post('jam_pakai', true);
             $ket_perbaikan = $this->input->post('ket_perbaikan', true);
             $biaya_perbaikan = $this->input->post('biaya_perbaikan', true);
 
@@ -646,6 +653,7 @@ class Admin extends CI_Controller
                 'jenis_perbaikan' => $jenis_perbaikan,
                 'id_sparepart' => $spare_part,
                 'tgl_perbaikan' => $tgl_perbaikan,
+                'jam_pakai' => $jam_pakai,
                 'ket_perbaikan' => $ket_perbaikan,
                 'biaya_perbaikan' => $biaya_perbaikan
             );
@@ -658,7 +666,7 @@ class Admin extends CI_Controller
         } else {
             $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Tambah Perbaikan Genset';
-            $this->load->view('admin/form_service_genset/tambah_service_genset', $data);
+            $this->load->view('admin/service_genset/tambah_service_genset', $data);
         }
     }
 
@@ -672,7 +680,7 @@ class Admin extends CI_Controller
         $data['list_data'] = $this->M_data->get_data('tb_serv_genset', $where);
         $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Update Perbaikan Genset';
-        $this->load->view('admin/form_service_genset/update_service_genset', $data);
+        $this->load->view('admin/service_genset/update_service_genset', $data);
     }
 
     public function proses_update_service_genset()
@@ -717,7 +725,7 @@ class Admin extends CI_Controller
         } else {
             $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Update Perbaikan Genset';
-            $this->load->view('admin/form_service_genset/update_service_genset', $data);
+            $this->load->view('admin/service_genset/update_service_genset', $data);
         }
     }
 
@@ -855,7 +863,7 @@ class Admin extends CI_Controller
 
         $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Data Pemakai';
-        $this->load->view('admin/form_pemakai/tabel_pemakai', $data);
+        $this->load->view('admin/pemakai/tabel_pemakai', $data);
     }
 
     // public function ajax_list_pakai()
@@ -898,7 +906,7 @@ class Admin extends CI_Controller
     {
         $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Tambah Data Pemakai';
-        $this->load->view('admin/form_pemakai/tambah_pemakai', $data);
+        $this->load->view('admin/pemakai/tambah_pemakai', $data);
     }
 
     public function update_data_pemakai()
@@ -908,7 +916,7 @@ class Admin extends CI_Controller
         $data['list_data'] = $this->M_data->get_data('tb_pemakai', $where);
         $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
         $data['title'] = 'Update Data Pemakai';
-        $this->load->view('admin/form_pemakai/edit_pemakai', $data);
+        $this->load->view('admin/pemakai/edit_pemakai', $data);
     }
 
     public function proses_tambah_pemakai()
@@ -936,7 +944,7 @@ class Admin extends CI_Controller
         } else {
             $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Tambah Data Pemakai';
-            $this->load->view('admin/form_pemakai/tambah_pemakai');
+            $this->load->view('admin/pemakai/tambah_pemakai');
         }
     }
 
@@ -967,7 +975,7 @@ class Admin extends CI_Controller
         } else {
             $data['avatar'] = $this->M_data->get_avatar('tb_user', $this->session->userdata('name'));
             $data['title'] = 'Update Data Pemakai';
-            $this->load->view('admin/form_pemakai/update_pemakai');
+            $this->load->view('admin/pemakai/update_pemakai');
         }
     }
 
