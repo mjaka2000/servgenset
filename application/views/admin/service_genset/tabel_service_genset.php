@@ -12,8 +12,8 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Data Perbaikan Genset</li>
+                        <li class="breadcrumb-item"><a href="<?= site_url('admin'); ?>"><i class="fas fa-home"></i></a></li>
+                        <li class="breadcrumb-item active">Perbaikan Genset</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -23,7 +23,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <div id="loading">
+        <div id="loading" class="tengah">
             <img src="<?= base_url(); ?>assets/style/loading.gif" alt="loading" width="50%">
         </div>
         <div class="container-fluid">
@@ -37,13 +37,13 @@
                         <div class="card-body">
                             <?php if ($this->session->flashdata('msg_sukses')) { ?>
                                 <div class="alert alert-success alert-dismissible">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <button class="close" data-dismiss="alert" aria-label="close">&times;</button>
                                     <strong>Berhasil!</strong><br> <?= $this->session->flashdata('msg_sukses'); ?>
                                 </div>
                             <?php } ?>
-                            <a href="<?= base_url('admin/tambah_service_genset'); ?>" style="margin-bottom:10px;" type="button" class="btn btn-sm btn-primary" name="tambah_data"><i class="fa fa-plus"></i>&nbsp;Tambah Data</a>
+                            <button onclick="window.location.href='<?= site_url('admin/tambah_service_genset'); ?>'" style="margin-bottom:10px;" type="button" class="btn btn-sm btn-primary" name="tambah_data"><i class="fa fa-plus"></i>&nbsp;Tambah Data</button>
 
-                            <table id="tableserv" class="table table-bordered table-hover" style="width:100%">
+                            <table id="examplejk" class="table table-bordered table-hover" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th style="width :10px">No.</th>
@@ -54,7 +54,7 @@
                                         <th>Tgl. Perbaikan</th>
                                         <th>Pemakai Terakhir</th>
                                         <th>Ket. Perbaikan</th>
-                                        <th>Biaya Perbaikan</th>
+                                        <th>Perkiraan Biaya</th>
                                         <th style="width:10%">Aksi</th>
                                     </tr>
                                 </thead>
@@ -62,6 +62,7 @@
                             </table>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -69,7 +70,7 @@
 </div>
 <?php $this->load->view('template/footer'); ?>
 
-<?php $this->load->view('admin/template/script') ?>
+<?php $this->load->view('template/script') ?>
 <script>
     //* Script untuk menampilkan loading
     document.onreadystatechange = function() {
@@ -86,26 +87,20 @@
         }
     };
 </script>
-
-<script>
-    //setting datatables
-    $('#tableserv').DataTable({
-        // "language": {
-        //     "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
-        // },
-        "autoWidth": false,
-        "responsive": true,
-        "processing": true,
-        "serverSide": true,
-        "order": [],
-        "ajax": {
-            //panggil method ajax list dengan ajax
-            "url": '<?= base_url('admin/ajax_list_serv'); ?>',
-            "type": "POST"
-        }
-    });
+<script type="text/javascript">
+    $(function() {
+        $('#examplejk').DataTable({
+            // 'paging': true,
+            // 'lengthChange': false,
+            // 'searching': faslse,
+            // 'ordering': false,
+            // 'info': true,
+            'responsive': true,
+            'autoWidth': false
+        })
+    }); //* Script untuk memuat datatable
 </script>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
     $('.btn-delete').on('click', function() {
         var getLink = $(this).attr('href');
         Swal.fire({
@@ -122,8 +117,28 @@
         })
         return false;
     }); //* Script untuk memuat sweetalert hapus data
-</script> -->
-<script type="text/javascript">
+</script>
+
+
+<script>
+    //setting datatables
+    // $('#tableserv').DataTable({
+    // "language": {
+    //     "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
+    // },
+    // "autoWidth": false,
+    // "responsive": true,
+    // "processing": true,
+    // "serverSide": true,
+    // "order": [],
+    // "ajax": {
+    //panggil method ajax list dengan ajax
+    //         "url": '<?= site_url('admin/ajax_list_serv'); ?>',
+    //         "type": "POST"
+    //     }
+    // });
+</script>
+<!-- <script type="text/javascript">
     $('#tableserv').on('click', '.btn-delete', function() {
         var getLink = $(this).attr('href');
         // var id = $(this).data('id_pemakai');
@@ -142,7 +157,7 @@
     });
 
     //* Script untuk memuat sweetalert hapus data
-</script>
+</script> -->
 </body>
 
 </html>
