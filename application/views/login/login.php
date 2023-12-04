@@ -51,7 +51,7 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-4">
-                                <button type="submit" class="btn btn-sm btn-primary btn-block"><i class="fas fa-sign-in-alt"></i>&nbsp;Log In</button>
+                                <button type="submit" class="win7-btn btn-xs"><i class="fas fa-sign-in-alt"></i>&nbsp;Log In</button>
                             </div>
                             <!-- /.col -->
                         </div>

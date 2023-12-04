@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="<?= base_url(); ?>assets/admin32/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= base_url(); ?>assets/admin32/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>assets/style/style.css">
 
     <style>
         body {
