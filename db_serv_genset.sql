@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Des 2023 pada 15.15
+-- Waktu pembuatan: 04 Des 2023 pada 11.58
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -78,9 +78,23 @@ CREATE TABLE `tb_pemakai` (
   `nama_pemakai` varchar(50) NOT NULL,
   `alamat_pemakai` varchar(50) NOT NULL,
   `no_hp_pemakai` varchar(20) NOT NULL,
-  `tgl_update_pemakai` date NOT NULL,
+  `noktp_pemakai` varchar(20) NOT NULL,
   `status_pemakai` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data untuk tabel `tb_pemakai`
+--
+
+INSERT INTO `tb_pemakai` (`id_pemakai`, `nama_pemakai`, `alamat_pemakai`, `no_hp_pemakai`, `noktp_pemakai`, `status_pemakai`) VALUES
+(1, 'Adi', 'jl pulau laut bjm', '0897819271234', '1837755930302264', 1),
+(2, 'Arul', 'Jl. AKT Dalam', '0897618391837', '1837755938776567', 1),
+(4, 'Ijum', 'jl pulau laut', '0897819271234', '1256237467583752', 1),
+(5, 'Wawan', 'jl sukamara', '0897819289283', '1620938473817289', 1),
+(6, 'Agus', 'jl manggis', '0897618390485', '1620938473467583', 0),
+(7, 'Andre S', 'jl handil bakti', '0897618654602', '1256237457684938', 0),
+(8, 'Sukma Lelana', 'jl. sungai andai, komp. persada', '0897819256049', '1256237457172638', 0),
+(9, 'Ahmad Musa', 'jl. sungai jingah', '0897618059683', '1620932637482945', 0);
 
 -- --------------------------------------------------------
 
@@ -240,7 +254,7 @@ ALTER TABLE `tb_genset`
 -- AUTO_INCREMENT untuk tabel `tb_pemakai`
 --
 ALTER TABLE `tb_pemakai`
-  MODIFY `id_pemakai` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pemakai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pengeluaran`
